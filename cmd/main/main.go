@@ -23,24 +23,24 @@ func main() {
 
 	// CSV
 	if err := demoExportCSV(svc, filenameCSV); err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	demoImportCSV := transactions.NewService()
 	if err := demoImportCSV.ImportCSV(filenameCSV); err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	fmt.Println("demoImportCSV = ", demoImportCSV)
 
 	//JSON
 	if err := svc.ExportJSON(filenameJSON); err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	demoImportJSON := transactions.NewService()
 	if err := demoImportJSON.ImportJSON(filenameJSON); err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	fmt.Println("demoImportJSON = ", demoImportJSON)

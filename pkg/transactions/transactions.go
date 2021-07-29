@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"strconv"
 	"sync"
@@ -77,14 +76,12 @@ func (s *Service) ExportCSV(writer io.Writer) error {
 func (s *Service) ImportCSV(filename string) error {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
 	reader := csv.NewReader(bytes.NewReader(data))
 	records, err := reader.ReadAll()
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
@@ -92,7 +89,6 @@ func (s *Service) ImportCSV(filename string) error {
 
 		t, err := MapRowToTransaction(record)
 		if err != nil {
-			log.Print(err)
 			return err
 		}
 
@@ -107,13 +103,11 @@ func (s *Service) ImportCSV(filename string) error {
 func MapRowToTransaction(records []string) (*Transaction, error) {
 	amount, err := strconv.ParseInt(records[3], 10, 64)
 	if err != nil {
-		log.Print(err)
 		return nil, err
 	}
 
 	created, err := strconv.ParseInt(records[4], 10, 64)
 	if err != nil {
-		log.Print(err)
 		return nil, err
 	}
 
@@ -131,13 +125,11 @@ func MapRowToTransaction(records []string) (*Transaction, error) {
 func (s *Service) ExportJSON(filename string) error {
 	encodedJson, err := json.Marshal(s.Transactions)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
 	file, err := os.Create(filename)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 	defer file.Close()
@@ -149,13 +141,11 @@ func (s *Service) ExportJSON(filename string) error {
 func (s *Service) ImportJSON(filename string) error {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
 	err = json.Unmarshal(data, &s.Transactions)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
